@@ -50,7 +50,7 @@ def load_data(country):
     """
 
     # load data file into a dataframe
-    df = pd.read_csv(COUNTRY_DATA[country])
+    df = pd.read_csv(COUNTRY_DATA[country],encoding="ISO-8859-1")
 
     return df
 
@@ -65,11 +65,9 @@ def avoid_shops(df):
     writer = pd.ExcelWriter('output.xlsx', engine = 'xlsxwriter')
     avoid_counts.to_excel(writer, sheet_name='avoid_counts')
 
-
     avoid_describe = df['i12_health_16'].describe()
     print(avoid_describe)
     avoid_describe.to_excel(writer, sheet_name='avoid_describe')
-
 
     writer.save()
     print('-'*40)
@@ -87,7 +85,6 @@ def main():
         df = load_data(country)
 
         avoid_shops(df)
-        excel_write(df)
 
 
         restart = input('\nWould you like to restart? Enter yes or no.\n')
