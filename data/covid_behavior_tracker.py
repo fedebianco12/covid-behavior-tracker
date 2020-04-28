@@ -25,13 +25,13 @@ def get_filters():
     print('Hello! Explore some country data.')
     # get user input for country
     while True:
-        countries = ( 'australia' 'brazil', 'canada', 'china','france', 'germany',
+        countries = ( 'australia', 'brazil', 'canada', 'china','france', 'germany',
                     'india', 'italy', 'japan', 'saudi arabia', 'singapore',
                     'south korea', 'spain','sweden', 'uk', 'united kingdom',
                     'mexico','united states','usa' )
         country =  input("Select country: ")
         if country.lower() not in countries:
-            print("Try again. Please write the country name (Canada, Mexico, USA)")
+            print("Try again. Please write the country name.")
         else:
             print("Thank you. You selected {}.".format(country.title()))
             break
@@ -62,20 +62,24 @@ def avoid_shops(df):
 
     avoid_counts = df['i12_health_16'].value_counts()
     print("Value counts:\n{}\n.".format(avoid_counts))
+    writer = pd.ExcelWriter('output.xlsx', engine = 'xlsxwriter')
+    avoid_counts.to_excel(writer, sheet_name='avoid_counts')
+
 
     avoid_describe = df['i12_health_16'].describe()
     print(avoid_describe)
+    avoid_describe.to_excel(writer, sheet_name='avoid_describe')
 
-    return avoid_counts
 
+    writer.save()
     print('-'*40)
 
-def excel_write(avoid_counts):
-    """Writes python script output to XLSX file \'output\' in directory"""
+#def excel_write():
+#    """Writes python script output to XLSX file \'output\' in directory"""
 
-    writer = pd.ExcelWriter('output.xlsx', engine = 'xlsxwriter')
-    avoid_counts.to_excel(writer, sheet_name='Sheet1')
-    writer.save()
+#    writer = pd.ExcelWriter('output.xlsx', engine = 'xlsxwriter')
+#    df.to_excel(writer, sheet_name='Sheet1')
+#    writer.save()
 
 def main():
     while True:
